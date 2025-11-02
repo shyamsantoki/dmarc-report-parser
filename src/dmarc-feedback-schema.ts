@@ -62,9 +62,13 @@ const PolicyOverrideType = z.enum([
   "other",
 ]);
 
+// allow multiple <type> values under <reason>
 const PolicyOverrideReason = zodToCamelCase(
   z.object({
-    type: PolicyOverrideType,
+    type: z.union([
+      PolicyOverrideType,
+      z.array(z.string()).transform((arr) => arr[0]), // take first element if array
+    ]),
     comment: z.string().optional(),
   })
 );
@@ -96,15 +100,19 @@ const IdentifierType = zodToCamelCase(
   })
 );
 
-const DKIMResultType = z.enum([
-  "none",
-  "pass",
-  "fail",
-  "policy",
-  "neutral",
-  "temperror",
-  "permerror",
-]);
+// lowercase normalization for result fields
+const DKIMResultType = z.preprocess(
+  (val) => (typeof val === "string" ? val.toLowerCase() : val),
+  z.enum([
+    "none",
+    "pass",
+    "fail",
+    "policy",
+    "neutral",
+    "temperror",
+    "permerror",
+  ])
+);
 
 const DKIMAuthResultType = zodToCamelCase(
   z.object({
@@ -117,15 +125,19 @@ const DKIMAuthResultType = zodToCamelCase(
 
 const SPFDomainScope = z.enum(["helo", "mfrom"]);
 
-const SPFResultType = z.enum([
-  "none",
-  "neutral",
-  "pass",
-  "fail",
-  "softfail",
-  "temperror",
-  "permerror",
-]);
+// ✅ FIX #2 — lowercase normalization for SPF results too
+const SPFResultType = z.preprocess(
+  (val) => (typeof val === "string" ? val.toLowerCase() : val),
+  z.enum([
+    "none",
+    "neutral",
+    "pass",
+    "fail",
+    "softfail",
+    "temperror",
+    "permerror",
+  ])
+);
 
 const SPFAuthResultType = zodToCamelCase(
   z.object({
