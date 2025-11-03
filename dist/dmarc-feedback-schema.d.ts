@@ -21,12 +21,12 @@ declare const RecordType: ZodEffects<z.ZodTypeAny, {
     authResults: {
         spf: {
             domain: string;
-            result: "none" | "pass" | "fail" | "neutral" | "temperror" | "permerror" | "softfail";
+            result: "none" | "pass" | "fail" | "neutral" | "temperror" | "permerror" | "hardfail" | "softfail";
             scope?: "helo" | "mfrom" | undefined;
         }[];
         dkim?: {
             domain: string;
-            result: "none" | "pass" | "fail" | "policy" | "neutral" | "temperror" | "permerror";
+            result: "none" | "pass" | "fail" | "policy" | "neutral" | "temperror" | "permerror" | "hardfail";
             selector?: string | undefined;
             humanResult?: string | undefined;
         }[] | undefined;
@@ -64,12 +64,12 @@ export declare const DmarcFeedbackSchema: ZodEffects<z.ZodTypeAny, {
         authResults: {
             spf: {
                 domain: string;
-                result: "none" | "pass" | "fail" | "neutral" | "temperror" | "permerror" | "softfail";
+                result: "none" | "pass" | "fail" | "neutral" | "temperror" | "permerror" | "hardfail" | "softfail";
                 scope?: "helo" | "mfrom" | undefined;
             }[];
             dkim?: {
                 domain: string;
-                result: "none" | "pass" | "fail" | "policy" | "neutral" | "temperror" | "permerror";
+                result: "none" | "pass" | "fail" | "policy" | "neutral" | "temperror" | "permerror" | "hardfail";
                 selector?: string | undefined;
                 humanResult?: string | undefined;
             }[] | undefined;

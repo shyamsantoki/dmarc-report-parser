@@ -82,6 +82,7 @@ const DKIMResultType = zod_1.z.preprocess((val) => (typeof val === "string" ? va
     "neutral",
     "temperror",
     "permerror",
+    "hardfail"
 ]));
 const DKIMAuthResultType = zodToCamelCase(zod_1.z.object({
     domain: singleItem(zod_1.z.string()),
@@ -90,7 +91,6 @@ const DKIMAuthResultType = zodToCamelCase(zod_1.z.object({
     human_result: singleItem(zod_1.z.string()).optional(),
 }));
 const SPFDomainScope = zod_1.z.enum(["helo", "mfrom"]);
-// ✅ FIX #2 — lowercase normalization for SPF results too
 const SPFResultType = zod_1.z.preprocess((val) => (typeof val === "string" ? val.toLowerCase() : val), zod_1.z.enum([
     "none",
     "neutral",
@@ -99,6 +99,7 @@ const SPFResultType = zod_1.z.preprocess((val) => (typeof val === "string" ? val
     "softfail",
     "temperror",
     "permerror",
+    "hardfail",
 ]));
 const SPFAuthResultType = zodToCamelCase(zod_1.z.object({
     domain: singleItem(zod_1.z.string()),
